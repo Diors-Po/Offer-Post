@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
  * @date 2019-12-19 12:00
  */
 @Data
-public class RegisterUserCommand {
+public class RegisterCommand {
 
     @NotNull(message = "用户名不可为空")
     private String name;

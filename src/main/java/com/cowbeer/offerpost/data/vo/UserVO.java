@@ -22,7 +22,7 @@ public class UserVO extends Account{
     public UserVO(Account account, UserInfo userInfo){
         BeanUtils.copyProperties(account,this);
         this.setPassword("******");
-        BeanUtils.copyProperties(userInfo, this);
+        BeanUtils.copyProperties(userInfo, this, "id");
     }
 
     public UserVO(Account account){

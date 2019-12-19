@@ -2,9 +2,7 @@ package com.cowbeer.offerpost.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -18,6 +16,7 @@ public class EnterpriseInfo {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "account_id")
@@ -32,8 +31,8 @@ public class EnterpriseInfo {
     @Column(name = "license_url")
     private String licenseUrl;
 
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "auth_status")
+    private Integer authStatus;
 
     @Column(name = "update_time")
     private Timestamp updateTime;

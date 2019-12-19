@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.model.EnterpriseInfo;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Diors.Po
@@ -13,7 +14,7 @@ import java.util.List;
 public interface EnterpriseInfoDao extends PagingAndSortingRepository<EnterpriseInfo, Long> {
     List<EnterpriseInfo> findAll();
 
-    EnterpriseInfo findByAccountId(Long accountId);
+    Optional<EnterpriseInfo> findByAccountId(Long accountId);
 
 
 }

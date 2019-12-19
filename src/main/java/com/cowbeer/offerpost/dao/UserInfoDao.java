@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.model.UserInfo;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Diors.Po
@@ -13,5 +14,5 @@ import java.util.List;
 public interface UserInfoDao extends PagingAndSortingRepository<UserInfo, Long> {
     List<UserInfo> findAll();
 
-    List<UserInfo> findByAccountId(Long accountId);
+    Optional<UserInfo> findByAccountId(Long accountId);
 }

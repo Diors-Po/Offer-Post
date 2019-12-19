@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
  * @date 2019-12-19 13:49
  */
 @Data
-public class UpdateAccountCommand {
+public class UpdateUserCommand {
 
 
     @NotNull(message = "用户名不可为空")
@@ -21,4 +21,12 @@ public class UpdateAccountCommand {
     private String mobile;
 
     private String avatar;
+
+    private Integer age;
+
+    private Integer gender;
+
+    private String university;
+
+    private Integer education;
 }
