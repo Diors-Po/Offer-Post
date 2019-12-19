@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Diors.Po
@@ -13,4 +14,6 @@ import java.util.List;
  */
 public interface AccountDao extends PagingAndSortingRepository<Account, Long> {
     List<Account> findAll();
+
+     Optional<Account> findByEmail(String email);
 }

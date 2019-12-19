@@ -11,3 +11,11 @@ spring:
     open-in-view: false
 server:
   port: 8088
+swagger:
+  enable: true
+
+oss:
+  accessKeyId: IvS323TIcWUT57MG
+  accessKeySecret: dYml7rvT8stQkoSjMYlfRTxNj9dEsI
+  endPoint: oss-cn-hangzhou.aliyuncs.com
+  bucketName: mooctest-crowd-service
