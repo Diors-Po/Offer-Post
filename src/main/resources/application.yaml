@@ -15,7 +15,7 @@ swagger:
   enable: true
 
 oss:
-  accessKeyId: IvS323TIcWUT57MG
-  accessKeySecret: dYml7rvT8stQkoSjMYlfRTxNj9dEsI
+  accessKeyId: LTAI4Frsvbz6G8RKb9dWDPUz
+  accessKeySecret: xdxGJuMlrEMMP3ZKY6n0WyZZNZAqrE
   endPoint: oss-cn-hangzhou.aliyuncs.com
   bucketName: mooctest-crowd-service
