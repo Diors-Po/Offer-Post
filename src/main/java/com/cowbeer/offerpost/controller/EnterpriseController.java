@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.controller;
 
+import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -38,6 +39,7 @@ public class EnterpriseController {
         return enterpriseService.getEnterprise(accountId);
     }
 
+    @LoginRequired
     @PutMapping(value = "/api/enterprise/{accountId}")
     public EnterpriseVO updateEnterprise(@Validated @RequestBody UpdateEnterpriseAuthCommand command, @PathVariable("accountId") Long accountId,
                                          BindingResult result, HttpSession session){

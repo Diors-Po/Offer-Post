@@ -1,9 +1,25 @@
 package com.cowbeer.offerpost.config;
 
+import com.cowbeer.offerpost.controller.interceptor.AuthCheckInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 /**
  * @author: Diors.Po
  * @Email: 171256175@qq.com
  * @date 2019-12-15 01:39
  */
-public class WebMvcConfiguration {
+@Configuration
+public class WebMvcConfiguration implements WebMvcConfigurer {
+
+    @Autowired
+    private AuthCheckInterceptor authCheckInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authCheckInterceptor)
+                .addPathPatterns("/api/**");
+    }
 }

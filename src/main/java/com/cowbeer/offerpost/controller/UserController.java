@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.controller;
 
+import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateUserCommand;
@@ -50,6 +51,7 @@ public class UserController {
      * @param result
      * @return
      */
+    @LoginRequired
     @PutMapping(value = "/api/user/{accountId}")
     public UserVO updateUser(@Validated @RequestBody UpdateUserCommand command,
                                 @PathVariable("accountId") Long accountId,

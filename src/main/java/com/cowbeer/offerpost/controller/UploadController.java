@@ -17,12 +17,12 @@ public class UploadController {
     @Autowired
     UploadService uploadService;
 
-    @RequestMapping(value = "/image", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/common/image", method = RequestMethod.POST)
     public String uploadImage(MultipartFile file){
         return uploadService.uploadImage(file);
     }
 
-    @RequestMapping(value = "/generalFile", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/common/general_file", method = RequestMethod.POST)
     public String uploadGeneralFile(MultipartFile file){
         return uploadService.uploadGeneralFile(file);
     }

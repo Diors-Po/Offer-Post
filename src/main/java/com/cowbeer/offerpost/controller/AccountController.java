@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.controller;
 
+import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.exception.BadRequestException;
@@ -33,6 +34,7 @@ public class AccountController {
         return account;
     }
 
+    @LoginRequired
     @PutMapping(value = "/api/account/{accountId}")
     public Account updateAccount(@Validated @RequestBody UpdateAccountCommand command, @PathVariable("accountId") Long accountId,
                                  BindingResult result, HttpSession session){
