@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,5 +26,10 @@ public class UploadController {
     @RequestMapping(value = "/api/common/general_file", method = RequestMethod.POST)
     public String uploadGeneralFile(MultipartFile file){
         return uploadService.uploadGeneralFile(file);
+    }
+
+    @RequestMapping(value = "/api/common/image/base64str", method = RequestMethod.POST)
+    public String uploadBase64Image(String data){
+        return null;
     }
 }
