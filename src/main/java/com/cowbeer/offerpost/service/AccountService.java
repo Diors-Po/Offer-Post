@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.service;
 
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
+import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.model.Account;
 
 /**
@@ -13,4 +14,6 @@ public interface AccountService {
     Account register(RegisterCommand command, Integer roleType);
 
     Account login(LoginCommand command);
+
+    Account update(Long accountId, UpdateAccountCommand command);
 }

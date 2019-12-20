@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.controller.advice;
 
 import com.cowbeer.offerpost.exception.BadRequestException;
+import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,13 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String handleUnauthorized(UnauthorizedException e){
         log.warn("401：未经认证的请求", e);
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(ForbiddenRequestException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String handleForbbiden(ForbiddenRequestException e){
+        log.warn("403: 无权限的请求", e);
         return e.getMessage();
     }
 

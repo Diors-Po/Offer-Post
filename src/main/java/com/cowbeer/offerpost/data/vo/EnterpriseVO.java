@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.data.vo;
 
+import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.model.Account;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
 import lombok.Data;
@@ -19,7 +20,8 @@ public class EnterpriseVO extends Account {
         BeanUtils.copyProperties(account,this);
         this.setPassword("******");
         this.enterpriseInfo = enterpriseInfo;
-        if (enterpriseInfo!=null && enterpriseInfo.getAuthStatus()==1){
+        if (enterpriseInfo!=null && enterpriseInfo.getAuthStatus()
+                .equals(CheckStatus.ENTERPRISE_AUTH_PASS)){
             this.authPassed = true;
         }
     }

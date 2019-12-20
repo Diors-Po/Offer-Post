@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.model;
 
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -22,8 +23,14 @@ public class EnterpriseInfo {
     @Column(name = "account_id")
     private Long accountId;
 
+    @Column(name = "enterprise_name")
+    private String enterpriseName;
+
     @Column(name = "location")
     private String location;
+
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "credit_code")
     private String creditCode;
@@ -35,5 +42,6 @@ public class EnterpriseInfo {
     private Integer authStatus;
 
     @Column(name = "update_time")
+    @UpdateTimestamp
     private Timestamp updateTime;
 }

@@ -10,6 +10,6 @@ public class UnauthorizedException extends BaseException {
         super(msg);
     }
     public UnauthorizedException(){
-        super("缺少操作权限");
+        super("请认证后操作");
     }
 }
