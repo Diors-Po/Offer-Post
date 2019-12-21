@@ -3,14 +3,9 @@ package com.cowbeer.offerpost.controller;
 import com.cowbeer.offerpost.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
-import java.io.IOException;
 
 /**
  * @author: Diors.Po
@@ -34,7 +29,7 @@ public class UploadController {
     }
 
     @RequestMapping(value = "/api/common/base64str", method = RequestMethod.POST)
-    public String uploadBase64Image(String data){
+    public String uploadBase64Image(@RequestBody String data){
         log.info(data);
         return uploadService.uploadBase64(data);
     }

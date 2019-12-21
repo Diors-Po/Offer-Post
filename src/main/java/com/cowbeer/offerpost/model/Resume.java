@@ -1,6 +1,8 @@
 package com.cowbeer.offerpost.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -28,9 +30,11 @@ public class Resume {
     @Column(name = "annex_url")
     private String annexUrl;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @UpdateTimestamp
     @Column(name = "update_time")
     private Timestamp update_time;
 }

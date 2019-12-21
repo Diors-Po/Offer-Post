@@ -35,7 +35,7 @@ public class PostInfoController {
             throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
         Long currentAId = (Long)session.getAttribute("accountId");
         if (!currentAId.equals(accountId))
-            throw new ForbiddenRequestException("无权修改他人账号");
+            throw new ForbiddenRequestException("无权操作他人账号");
         return postService.addPostInfo(accountId, command);
     }
 
