@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.constants.CheckStatus;
+import com.cowbeer.offerpost.data.PostInfoDTO;
 import com.cowbeer.offerpost.data.PostsAuthDTO;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;

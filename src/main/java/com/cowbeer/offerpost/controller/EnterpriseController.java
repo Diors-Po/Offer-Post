@@ -1,11 +1,13 @@
 package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
+import com.cowbeer.offerpost.data.PostInfoDTO;
 import com.cowbeer.offerpost.data.StatisticsDTO;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
+import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.exception.UnauthorizedException;
 import com.cowbeer.offerpost.service.EnterpriseService;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +51,7 @@ public class EnterpriseController {
             throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
         Long currentAId = (Long)session.getAttribute("accountId");
         if (!currentAId.equals(accountId))
-            throw new UnauthorizedException("无权修改他人信息");
+            throw new ForbiddenRequestException("无权修改他人信息");
         return enterpriseService.updateEnterpriseAuth(accountId, command);
     }
 
@@ -58,7 +60,7 @@ public class EnterpriseController {
     public StatisticsDTO statisticsInfo(@PathVariable("accountId") Long accountId, HttpSession session){
         Long currentAId = (Long)session.getAttribute("accountId");
         if (!currentAId.equals(accountId))
-            throw new UnauthorizedException("无权查看他人信息");
+            throw new ForbiddenRequestException("无权查看他人信息");
         return enterpriseService.getStatisticsInfo(accountId);
     }
 
@@ -95,6 +97,14 @@ public class EnterpriseController {
     @GetMapping(value = "/api/enterprises")
     public List<EnterpriseVO> getAllEnterprise(){
         return enterpriseService.getAllEnterprise();
+    }
+
+    @GetMapping(value = "/api/enterprise/{accountId}/posts/manage")
+    public PostInfoDTO getPostInfoList(@PathVariable("accountId") Long accountId, HttpSession session){
+//        Long currentAId = (Long)session.getAttribute("accountId");
+//        if (!currentAId.equals(accountId))
+//            throw new ForbiddenRequestException("无权修改他人信息");
+        return enterpriseService.getPostInfoList(accountId);
     }
 
 }

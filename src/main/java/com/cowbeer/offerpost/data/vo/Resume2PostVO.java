@@ -19,6 +19,7 @@ public class Resume2PostVO {
     private String resumeName;
     private String createTime;
     private Long postId;
+    private String postName;
     private String annexUrl;
     private Long accountId;
     //此处的enterpriseId是指enterprise的accountId,
