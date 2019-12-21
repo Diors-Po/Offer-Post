@@ -92,7 +92,22 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword) {
         List<PostInfo> allByStatus = postInfoDao.findAllByStatus(CheckStatus.AUTH_PASS);
-        return allByStatus.stream().map(this::processVO).collect(Collectors.toList());
+        return allByStatus.stream().filter(postInfo -> {
+            for (String s : command.getWorkLocations()){
+                if (postInfo.getWorkLocation().trim().equals(s.trim()))
+                    return true;
+            }
+            return false;
+        }).filter(postInfo -> {
+            for(String s : command.getSalaryScope()){
+                String[] scopes = s.trim().split("-");
+                Integer min = Integer.parseInt(scopes[0]);
+                Integer max = Integer.parseInt(scopes[1]);
+                if (postInfo.getSalary()<=max || postInfo.getSalary()>=min)
+                    return true;
+            }
+            return false;
+        }).map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
