@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.controller;
 
+import com.cowbeer.offerpost.data.command.UpdateAvatarCommand;
 import com.cowbeer.offerpost.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class UploadController {
     }
 
     @RequestMapping(value = "/api/common/base64str", method = RequestMethod.POST)
-    public String uploadBase64Image(@RequestBody String data){
-        log.info(data);
-        return uploadService.uploadBase64(data);
+    public String uploadBase64Image(@RequestBody UpdateAvatarCommand data){
+        log.info(data.getBase64str());
+        return uploadService.uploadBase64(data.getBase64str());
     }
 }

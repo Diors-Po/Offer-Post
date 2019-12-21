@@ -3,6 +3,7 @@ package com.cowbeer.offerpost.controller;
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
+import com.cowbeer.offerpost.data.command.UpdateAvatarCommand;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.exception.UnauthorizedException;
@@ -50,10 +51,13 @@ public class AccountController {
 
     @LoginRequired
     @PutMapping(value = "/api/account/{accountId}/avatar")
-    public Account updateAvatar(@PathVariable("accountId") Long accountId, @RequestBody String data, HttpSession session){
+    public Account updateAvatar(@PathVariable("accountId") Long accountId, @Validated @RequestBody UpdateAvatarCommand command,
+                                BindingResult result, HttpSession session){
+        if (result.hasErrors())
+            throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
         Long currentAId = (Long)session.getAttribute("accountId");
         if (!currentAId.equals(accountId))
             throw new ForbiddenRequestException("无权修改他人信息");
-        return accountService.updateAvatar(accountId, data);
+        return accountService.updateAvatar(accountId, command.getBase64str());
     }
 }
