@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.sql.Timestamp;
+
 /**
  * @author: Diors.Po
  * @Email: 171256175@qq.com
@@ -18,7 +20,7 @@ import org.springframework.beans.BeanUtils;
 public class Resume2PostVO {
     private Long resumeId;
     private String resumeName;
-    private String createTime;
+    private Timestamp createTime;
     private Long postId;
     private String postTitle;
     private String annexUrl;
@@ -33,6 +35,7 @@ public class Resume2PostVO {
 
     public Resume2PostVO(Resume2Post resume2Post, Resume resume, PostInfo postInfo, EnterpriseInfo enterpriseInfo){
         BeanUtils.copyProperties(resume2Post, this);
+        System.out.println(resume2Post.getCreateTime());
         this.enterpriseId = enterpriseInfo.getAccountId();
         this.enterpriseName = enterpriseInfo.getEnterpriseName();
         this.resumeName = resume.getName();

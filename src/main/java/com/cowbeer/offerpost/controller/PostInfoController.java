@@ -78,4 +78,6 @@ public class PostInfoController {
     public PostInfoVO rejectPostInfo(@PathVariable("postId")Long postId){
         return postService.rejectPostInfo(postId);
     }
+
+
 }
