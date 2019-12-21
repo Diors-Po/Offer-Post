@@ -5,6 +5,8 @@ import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
 
+import java.util.List;
+
 /**
  * @author: Diors.Po
  * @Email: 171256175@qq.com
@@ -15,6 +17,16 @@ public interface EnterpriseService {
     EnterpriseVO registerEnterprise(RegisterCommand command);
 
     EnterpriseVO getEnterprise(Long accountId);
+
+    List<EnterpriseVO> getCheckedEnterprises();
+
+    List<EnterpriseVO> getUncheckEnterprises();
+
+    List<EnterpriseVO> getPassedEnterprises();
+
+    List<EnterpriseVO> getFailedEnterprises();
+
+    List<EnterpriseVO> getAllEnterprise();
 
     EnterpriseVO updateEnterpriseAuth(Long accountId, UpdateEnterpriseAuthCommand command);
 

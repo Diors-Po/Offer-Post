@@ -18,7 +18,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author: Diors.Po
@@ -51,6 +54,47 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         Account account = accountOptional.get();
         Optional<EnterpriseInfo> infoOptional = enterpriseInfoDao.findByAccountId(accountId);
         return infoOptional.map(enterpriseInfo -> new EnterpriseVO(account, enterpriseInfo)).orElseGet(() -> new EnterpriseVO(account));
+    }
+
+    @Override
+    public List<EnterpriseVO> getCheckedEnterprises() {
+        List<EnterpriseInfo> enterpriseInfos = enterpriseInfoDao.findByAuthStatusOrAuthStatus(CheckStatus.AUTH_PASS, CheckStatus.AUTH_FAIL);
+        return getEnterpriseVOS(enterpriseInfos);
+    }
+
+    @Override
+    public List<EnterpriseVO> getUncheckEnterprises() {
+        List<EnterpriseInfo> enterpriseInfos = enterpriseInfoDao.findByAuthStatus(CheckStatus.AUTH_ING);
+        return getEnterpriseVOS(enterpriseInfos);
+    }
+
+    private List<EnterpriseVO> getEnterpriseVOS(List<EnterpriseInfo> enterpriseInfos) {
+        enterpriseInfos.sort(Comparator.comparing(EnterpriseInfo::getUpdateTime));
+        return enterpriseInfos.stream().map(enterpriseInfo -> {
+            EnterpriseVO enterpriseVO = new EnterpriseVO();
+            enterpriseVO.setEnterpriseInfo(enterpriseInfo);
+            Optional<Account> accountOptional = accountDao.findById(enterpriseInfo.getAccountId());
+            accountOptional.ifPresent(enterpriseVO::setAccount);
+            return enterpriseVO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EnterpriseVO> getPassedEnterprises() {
+        List<EnterpriseInfo> enterpriseInfos = enterpriseInfoDao.findByAuthStatus(CheckStatus.AUTH_PASS);
+        return getEnterpriseVOS(enterpriseInfos);
+    }
+
+    @Override
+    public List<EnterpriseVO> getFailedEnterprises() {
+        List<EnterpriseInfo> enterpriseInfos = enterpriseInfoDao.findByAuthStatus(CheckStatus.AUTH_FAIL);
+        return getEnterpriseVOS(enterpriseInfos);
+    }
+
+    @Override
+    public List<EnterpriseVO> getAllEnterprise() {
+        List<EnterpriseInfo> enterpriseInfos = enterpriseInfoDao.findAll();
+        return getEnterpriseVOS(enterpriseInfos);
     }
 
     @Override

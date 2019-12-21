@@ -16,5 +16,8 @@ public interface EnterpriseInfoDao extends PagingAndSortingRepository<Enterprise
 
     Optional<EnterpriseInfo> findByAccountId(Long accountId);
 
+    List<EnterpriseInfo> findByAuthStatus(Integer status);
+
+    List<EnterpriseInfo> findByAuthStatusOrAuthStatus(Integer status1, Integer status2);
 
 }

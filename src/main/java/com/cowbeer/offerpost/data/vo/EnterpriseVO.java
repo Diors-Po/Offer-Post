@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.model.Account;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.beans.BeanUtils;
  * @date 2019-12-19 11:59
  */
 @Data
+@NoArgsConstructor
 public class EnterpriseVO extends Account {
     private boolean authPassed = false;
     private EnterpriseInfo enterpriseInfo;

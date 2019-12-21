@@ -17,4 +17,6 @@ public interface ResumeService {
     ResumeVO addResume(Long accountId, ResumeCommand command);
 
     List<Resume> getResumeInfoByAccountId(Long accountId);
+
+    void deleteResumeById(Long accountId, Long resumeId);
 }

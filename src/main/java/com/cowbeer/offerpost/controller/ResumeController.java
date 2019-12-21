@@ -7,6 +7,7 @@ import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.model.Resume;
 import com.cowbeer.offerpost.service.ResumeService;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -51,5 +52,12 @@ public class ResumeController {
         if (!currentAId.equals(accountId))
             throw new ForbiddenRequestException("无权操作他人账号");
         return resumeService.getResumeInfoByAccountId(accountId);
+    }
+
+    @LoginRequired
+    @DeleteMapping("/api/user/resume/{resumeId}")
+    public void deleteResumeById(@PathVariable("resumeId") Long resumeId, HttpSession session){
+        Long accountId = (Long) session.getAttribute("accountId");
+        resumeService.deleteResumeById(accountId, resumeId);
     }
 }

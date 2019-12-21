@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author: Diors.Po
@@ -70,4 +71,30 @@ public class EnterpriseController {
     public EnterpriseVO failEnterpriseAuth(@PathVariable("accountId") Long accountId){
         return enterpriseService.rejectEnterpriseAuth(accountId);
     }
+
+    @GetMapping(value = "/api/enterprises/status/checked")
+    public List<EnterpriseVO> getCheckedEnterprises(){
+        return enterpriseService.getCheckedEnterprises();
+    }
+
+    @GetMapping(value = "/api/enterprises/status/unchecked")
+    public List<EnterpriseVO> getUncheckedEnterprises(){
+        return enterpriseService.getUncheckEnterprises();
+    }
+
+    @GetMapping(value = "/api/enterprises/status/fail")
+    public List<EnterpriseVO> getFailedEnterprises(){
+        return enterpriseService.getFailedEnterprises();
+    }
+
+    @GetMapping(value = "/api/enterprises/status/pass")
+    public List<EnterpriseVO> getPassedEnterprises(){
+        return enterpriseService.getPassedEnterprises();
+    }
+
+    @GetMapping(value = "/api/enterprises")
+    public List<EnterpriseVO> getAllEnterprise(){
+        return enterpriseService.getAllEnterprise();
+    }
+
 }
