@@ -87,7 +87,7 @@ public class AccountController {
                          BindingResult result, HttpSession session){
         if (result.hasErrors())
             throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
-        if (command.isRepeatEqual())
+        if (!command.isRepeatEqual())
             throw new BadRequestException("两次输入密码不一致");
         accountService.resetPwd(accountId, command);
         session.removeAttribute("accountId");
