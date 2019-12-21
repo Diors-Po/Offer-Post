@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
+import com.cowbeer.offerpost.data.StatisticsDTO;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -49,6 +50,15 @@ public class EnterpriseController {
         if (!currentAId.equals(accountId))
             throw new UnauthorizedException("无权修改他人信息");
         return enterpriseService.updateEnterpriseAuth(accountId, command);
+    }
+
+    @LoginRequired
+    @GetMapping(value = "/api/enterprise/{accountId}/statistics")
+    public StatisticsDTO statisticsInfo(@PathVariable("accountId") Long accountId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new UnauthorizedException("无权查看他人信息");
+        return enterpriseService.getStatisticsInfo(accountId);
     }
 
 }

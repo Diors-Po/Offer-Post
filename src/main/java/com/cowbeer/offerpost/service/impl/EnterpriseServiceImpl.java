@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.constants.RoleType;
 import com.cowbeer.offerpost.dao.AccountDao;
 import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
+import com.cowbeer.offerpost.data.StatisticsDTO;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -68,6 +69,11 @@ public class EnterpriseServiceImpl implements EnterpriseService {
         BeanUtils.copyProperties(command, info);
         info.setAuthStatus(CheckStatus.AUTH_ING);
         return new EnterpriseVO(accountOptional.get(), enterpriseInfoDao.save(info));
+    }
+
+    @Override
+    public StatisticsDTO getStatisticsInfo(Long accountId) {
+        return null;
     }
 
 

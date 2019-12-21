@@ -51,9 +51,9 @@ public class PostInfo {
     private Timestamp updateTime;
 
     @Column(name = "start_time")
-    private Timestamp start_time;
+    private Timestamp startTime;
 
     @Column(name = "end_time")
-    private Timestamp end_time;
+    private Timestamp endTime;
 
 }

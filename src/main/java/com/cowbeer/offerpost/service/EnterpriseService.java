@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.service;
 
+import com.cowbeer.offerpost.data.StatisticsDTO;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -16,4 +17,6 @@ public interface EnterpriseService {
     EnterpriseVO getEnterprise(Long accountId);
 
     EnterpriseVO updateEnterpriseAuth(Long accountId, UpdateEnterpriseAuthCommand command);
+
+    StatisticsDTO getStatisticsInfo(Long accountId);
 }

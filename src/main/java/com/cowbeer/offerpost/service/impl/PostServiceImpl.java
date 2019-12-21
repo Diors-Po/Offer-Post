@@ -12,7 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author: Diors.Po
@@ -42,6 +45,16 @@ public class PostServiceImpl implements PostService {
         if (!postInfoOptional.isPresent())
             throw new BadRequestException("该招聘信息不存在");
         return processVO(postInfoOptional.get());
+    }
+
+    @Override
+    public List<PostInfoVO> getPosts(Integer status) {
+        return postInfoDao.findAllByStatus(status).stream().map(this::processVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostInfoVO> getPosts() {
+        return postInfoDao.findAll().stream().map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){

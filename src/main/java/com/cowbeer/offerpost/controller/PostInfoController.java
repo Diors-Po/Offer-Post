@@ -1,6 +1,8 @@
 package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
+import com.cowbeer.offerpost.constants.CheckStatus;
+import com.cowbeer.offerpost.data.PostsAuthDTO;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
@@ -14,6 +16,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: Diors.Po
@@ -42,5 +46,20 @@ public class PostInfoController {
     @GetMapping(value = "/api/enterprise/post/{postId}")
     public PostInfoVO getPostById(@PathVariable("postId") Long postId){
         return postService.getPostInfoById(postId);
+    }
+
+    @GetMapping(value = "/api/enterprise/posts/auth_pass")
+    public List<PostInfoVO> getPostInfos(){
+        return postService.getPosts(CheckStatus.AUTH_PASS);
+    }
+
+    @GetMapping(value = "/api/enterprise/posts/status/all")
+    public PostsAuthDTO getAllPostsInAuthPage(){
+        PostsAuthDTO postsAuthDTO = new PostsAuthDTO();
+        List<PostInfoVO> allPosts = postService.getPosts();
+        postsAuthDTO.setAuthedPosts(allPosts.stream().filter(postInfoVO -> !postInfoVO.getPostInfo().getStatus().equals(CheckStatus.AUTH_ING)).collect(Collectors.toList()));
+        allPosts.removeAll(postsAuthDTO.getAuthedPosts());
+        postsAuthDTO.setUnauthPosts(allPosts);
+        return postsAuthDTO;
     }
 }

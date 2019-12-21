@@ -32,9 +32,9 @@ public class PostCommand {
     private Integer headCount;
 
     @NotNull(message = "请选择信息发布开始时间")
-    private Timestamp start_time;
+    private Timestamp startTime;
     @NotNull(message = "请选择信息发布结束时间")
-    private Timestamp end_time;
+    private Timestamp endTime;
 
     public PostInfo getPostInfo(){
         PostInfo postInfo = new PostInfo();
