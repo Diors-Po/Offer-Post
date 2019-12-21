@@ -43,6 +43,11 @@ public class PostInfoController {
         return postService.addPostInfo(accountId, command);
     }
 
+    @GetMapping(value = "/api/enterprise/{accountId}/posts")
+    public List<PostInfoVO> getPostsByEnterprise(@PathVariable("accountId") Long accountId){
+        return postService.getPostsByEnterprise(accountId);
+    }
+
     @GetMapping(value = "/api/enterprise/post/{postId}")
     public PostInfoVO getPostById(@PathVariable("postId") Long postId){
         return postService.getPostInfoById(postId);

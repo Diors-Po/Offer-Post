@@ -18,4 +18,6 @@ public interface PostService {
     List<PostInfoVO> getPosts(Integer status);
 
     List<PostInfoVO> getPosts();
+
+    List<PostInfoVO> getPostsByEnterprise(Long accountId);
 }

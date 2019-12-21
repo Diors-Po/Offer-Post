@@ -1,5 +1,6 @@
 package com.cowbeer.offerpost.service.impl;
 
+import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
 import com.cowbeer.offerpost.dao.PostInfoDao;
 import com.cowbeer.offerpost.data.command.PostCommand;
@@ -54,7 +55,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostInfoVO> getPosts() {
-        return postInfoDao.findAll().stream().map(this::processVO).collect(Collectors.toList());
+        return postInfoDao.findAll().stream().map(this::processVO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PostInfoVO> getPostsByEnterprise(Long accountId) {
+        return postInfoDao.findByAccountIdAndStatus(accountId, CheckStatus.AUTH_PASS)
+                .stream().map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
