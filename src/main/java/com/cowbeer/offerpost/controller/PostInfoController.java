@@ -67,4 +67,14 @@ public class PostInfoController {
         postsAuthDTO.setUnauthPosts(allPosts);
         return postsAuthDTO;
     }
+
+    @PutMapping(value = "/api/enterprise/post/{postId}/status/pass")
+    public PostInfoVO passPostInfo(@PathVariable("postId")Long postId){
+        return postService.passPostInfo(postId);
+    }
+
+    @PutMapping(value = "/api/enterprise/post/{postId}/status/fail")
+    public PostInfoVO rejectPostInfo(@PathVariable("postId")Long postId){
+        return postService.rejectPostInfo(postId);
+    }
 }

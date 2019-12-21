@@ -65,6 +65,29 @@ public class PostServiceImpl implements PostService {
                 .stream().map(this::processVO).collect(Collectors.toList());
     }
 
+    @Override
+    public PostInfoVO passPostInfo(Long postId) {
+        Optional<PostInfo> infoOptional = postInfoDao.findById(postId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("招聘信息不存在");
+        PostInfo postInfo = infoOptional.get();
+        Optional<EnterpriseInfo> enterpriseInfoOptional = enterpriseInfoDao.findByAccountId(postInfo.getAccountId());
+        if (!enterpriseInfoOptional.isPresent() || !enterpriseInfoOptional.get().getAuthStatus().equals(CheckStatus.AUTH_PASS))
+            throw new BadRequestException("企业不存在或未通过认证，无法通过该企业的招聘信息");
+        postInfo.setStatus(CheckStatus.AUTH_PASS);
+        return processVO(postInfoDao.save(postInfo));
+    }
+
+    @Override
+    public PostInfoVO rejectPostInfo(Long postId) {
+        Optional<PostInfo> infoOptional = postInfoDao.findById(postId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("招聘信息不存在");
+        PostInfo postInfo = infoOptional.get();
+        postInfo.setStatus(CheckStatus.AUTH_FAIL);
+        return processVO(postInfoDao.save(postInfo));
+    }
+
     private PostInfoVO processVO(PostInfo postInfo){
         Optional<EnterpriseInfo> enterpriseInfoOptional = enterpriseInfoDao.findByAccountId(postInfo.getAccountId());
         PostInfoVO postInfoVO = new PostInfoVO();

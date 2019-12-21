@@ -36,5 +36,5 @@ public class Resume {
 
     @UpdateTimestamp
     @Column(name = "update_time")
-    private Timestamp update_time;
+    private Timestamp updateTime;
 }

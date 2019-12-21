@@ -20,4 +20,8 @@ public interface PostService {
     List<PostInfoVO> getPosts();
 
     List<PostInfoVO> getPostsByEnterprise(Long accountId);
+
+    PostInfoVO passPostInfo(Long postId);
+
+    PostInfoVO rejectPostInfo(Long postId);
 }
