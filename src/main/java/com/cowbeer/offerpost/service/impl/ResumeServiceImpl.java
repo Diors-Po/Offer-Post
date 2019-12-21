@@ -1,6 +1,5 @@
 package com.cowbeer.offerpost.service.impl;
 
-import com.cowbeer.offerpost.dao.AccountDao;
 import com.cowbeer.offerpost.dao.ResumeDao;
 import com.cowbeer.offerpost.dao.UserInfoDao;
 import com.cowbeer.offerpost.data.command.ResumeCommand;
@@ -13,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -43,6 +43,11 @@ public class ResumeServiceImpl implements ResumeService {
         Resume resume = command.getResume();
         resume.setAccountId(accountId);
         return processVO(resumeDao.save(resume));
+    }
+
+    @Override
+    public List<Resume> getResumeInfoByAccountId(Long accountId) {
+        return resumeDao.findByAccountId(accountId);
     }
 
     private ResumeVO processVO(Resume resume){

@@ -1,6 +1,9 @@
 package com.cowbeer.offerpost.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,6 +14,8 @@ import java.sql.Timestamp;
  * @date 2019-12-14 22:33
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity(name = "resume_2_post")
 public class Resume2Post {
     @Id
@@ -27,6 +32,13 @@ public class Resume2Post {
     @Column(name = "post_id")
     private Long postId;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
+
+    public Resume2Post(Long accountId, Long resumeId, Long postId){
+        this.accountId = accountId;
+        this.resumeId = resumeId;
+        this.postId = postId;
+    }
 }

@@ -6,10 +6,12 @@ import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateUserCommand;
 import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
+import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.exception.UnauthorizedException;
 import com.cowbeer.offerpost.model.Account;
 import com.cowbeer.offerpost.service.AccountService;
 import com.cowbeer.offerpost.service.UserService;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -74,6 +76,16 @@ public class UserController {
         return userService.getUser(accountId);
     }
 
+
+    @LoginRequired
+    @PostMapping(value = "/api/user/{accountId}/post/{postId}/resume/{resumeId}")
+    public void sendResume(@PathVariable("accountId") Long accountId, @PathVariable("postId") Long postId,
+                           @PathVariable("resumeId") Long resumeId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权操作他人账号");
+        userService.sendResume(accountId, postId, resumeId);
+    }
 
 
 }

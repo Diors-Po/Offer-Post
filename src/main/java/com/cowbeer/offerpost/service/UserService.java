@@ -17,4 +17,6 @@ public interface UserService {
     UserVO updateUser(Long accountId, UpdateUserCommand command);
 
     UserVO getUser(Long accountId);
+
+    void sendResume(Long accountId, Long postId, Long resumeId);
 }

@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.model.Resume2Post;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Diors.Po
@@ -14,4 +15,6 @@ public interface Resume2PostDao extends PagingAndSortingRepository<Resume2Post, 
     List<Resume2Post> findByPostId(Long postId);
 
     List<Resume2Post> findByResumeId(Long resumeId);
+
+    Optional<Resume2Post> findByAccountIdAndPostId(Long accountId, Long postId);
 }

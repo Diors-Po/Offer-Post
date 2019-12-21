@@ -2,6 +2,9 @@ package com.cowbeer.offerpost.service;
 
 import com.cowbeer.offerpost.data.command.ResumeCommand;
 import com.cowbeer.offerpost.data.vo.ResumeVO;
+import com.cowbeer.offerpost.model.Resume;
+
+import java.util.List;
 
 /**
  * @author: Diors.Po
@@ -12,4 +15,6 @@ public interface ResumeService {
     ResumeVO getResumeInfoById(Long resumeId);
 
     ResumeVO addResume(Long accountId, ResumeCommand command);
+
+    List<Resume> getResumeInfoByAccountId(Long accountId);
 }
