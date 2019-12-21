@@ -1,14 +1,15 @@
 package com.cowbeer.offerpost.service.impl;
 
 import com.cowbeer.offerpost.constants.RoleType;
-import com.cowbeer.offerpost.dao.AccountDao;
-import com.cowbeer.offerpost.dao.ResumeDao;
-import com.cowbeer.offerpost.dao.UserInfoDao;
+import com.cowbeer.offerpost.dao.*;
 import com.cowbeer.offerpost.data.command.ResumeCommand;
+import com.cowbeer.offerpost.data.vo.Resume2PostVO;
 import com.cowbeer.offerpost.data.vo.ResumeVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
+import com.cowbeer.offerpost.model.EnterpriseInfo;
 import com.cowbeer.offerpost.model.Resume;
+import com.cowbeer.offerpost.model.Resume2Post;
 import com.cowbeer.offerpost.model.UserInfo;
 import com.cowbeer.offerpost.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author: Diors.Po
@@ -35,6 +37,15 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Autowired
     AccountDao accountDao;
+
+    @Autowired
+    PostInfoDao postInfoDao;
+
+    @Autowired
+    Resume2PostDao resume2PostDao;
+
+    @Autowired
+    EnterpriseInfoDao enterpriseInfoDao;
 
     @Override
     public ResumeVO getResumeInfoById(Long resumeId) {
@@ -61,10 +72,23 @@ public class ResumeServiceImpl implements ResumeService {
         Optional<Resume> resumeOptional = resumeDao.findById(resumeId);
         if (!resumeOptional.isPresent())
             throw new BadRequestException("该简历不存在");
-        if (resumeOptional.get().getAccountId().equals(accountId) || accountDao.findById(accountId).get().getRole().equals(RoleType.ADMIN))
+        if (resumeOptional.get().getAccountId().equals(accountId) || accountDao.findById(accountId).get().getRole().equals(RoleType.ADMIN)) {
             resumeDao.deleteById(resumeId);
+            resume2PostDao.findByResumeId(resumeId).forEach(resume2Post -> {
+                resume2PostDao.delete(resume2Post);
+            });
+        }
         else
             throw new ForbiddenRequestException("无权删除该简历");
+    }
+
+    @Override
+    public List<Resume2PostVO> getSentResumesByAccountId(Long accountId) {
+        return resume2PostDao.findByAccountId(accountId).stream().map(resume2Post -> {
+            Resume resume = resumeDao.findById(resume2Post.getResumeId()).get();
+            EnterpriseInfo enterpriseInfo = enterpriseInfoDao.findByAccountId(postInfoDao.findById(resume2Post.getPostId()).get().getAccountId()).get();
+            return new Resume2PostVO(resume2Post, resume, enterpriseInfo);
+        }).collect(Collectors.toList());
     }
 
     private ResumeVO processVO(Resume resume){

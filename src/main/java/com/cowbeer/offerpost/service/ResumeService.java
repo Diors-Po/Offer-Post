@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.service;
 
 import com.cowbeer.offerpost.data.command.ResumeCommand;
+import com.cowbeer.offerpost.data.vo.Resume2PostVO;
 import com.cowbeer.offerpost.data.vo.ResumeVO;
 import com.cowbeer.offerpost.model.Resume;
 
@@ -19,4 +20,6 @@ public interface ResumeService {
     List<Resume> getResumeInfoByAccountId(Long accountId);
 
     void deleteResumeById(Long accountId, Long resumeId);
+
+    List<Resume2PostVO> getSentResumesByAccountId(Long accountId);
 }

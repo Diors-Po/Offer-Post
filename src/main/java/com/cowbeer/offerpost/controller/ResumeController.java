@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.ResumeCommand;
+import com.cowbeer.offerpost.data.vo.Resume2PostVO;
 import com.cowbeer.offerpost.data.vo.ResumeVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
@@ -59,5 +60,14 @@ public class ResumeController {
     public void deleteResumeById(@PathVariable("resumeId") Long resumeId, HttpSession session){
         Long accountId = (Long) session.getAttribute("accountId");
         resumeService.deleteResumeById(accountId, resumeId);
+    }
+
+    @LoginRequired
+    @GetMapping("/api/user/{accountId}/resumes/sent")
+    public List<Resume2PostVO> getSendedResumes(@PathVariable("accountId") Long accountId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权操作他人账号");
+        return resumeService.getSentResumesByAccountId(accountId);
     }
 }

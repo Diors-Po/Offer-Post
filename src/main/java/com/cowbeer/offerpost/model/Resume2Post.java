@@ -36,7 +36,7 @@ public class Resume2Post {
     @Column(name = "create_time")
     private Timestamp createTime;
 
-    public Resume2Post(Long accountId, Long resumeId, Long postId){
+    public Resume2Post(Long accountId, Long postId, Long resumeId){
         this.accountId = accountId;
         this.resumeId = resumeId;
         this.postId = postId;

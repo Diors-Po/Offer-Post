@@ -84,6 +84,7 @@ public class UserController {
         Long currentAId = (Long)session.getAttribute("accountId");
         if (!currentAId.equals(accountId))
             throw new ForbiddenRequestException("无权操作他人账号");
+        log.info("accountId: "+accountId + ", postId: "+postId + " resumeId: "+resumeId);
         userService.sendResume(accountId, postId, resumeId);
     }
 

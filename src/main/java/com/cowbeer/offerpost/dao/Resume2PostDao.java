@@ -16,5 +16,7 @@ public interface Resume2PostDao extends PagingAndSortingRepository<Resume2Post, 
 
     List<Resume2Post> findByResumeId(Long resumeId);
 
+    List<Resume2Post> findByAccountId(Long accountId);
+
     Optional<Resume2Post> findByAccountIdAndPostId(Long accountId, Long postId);
 }
