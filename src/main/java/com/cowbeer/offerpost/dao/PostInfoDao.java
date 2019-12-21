@@ -13,5 +13,5 @@ import java.util.List;
 public interface PostInfoDao extends PagingAndSortingRepository<PostInfo, Long> {
     List<PostInfo> findAll();
 
-    List<PostInfo> findByEnterpriseIdAndStatus(Long enterpriseId, Integer status);
+    List<PostInfo> findByAccountIdAndStatus(Long accountId, Integer status);
 }

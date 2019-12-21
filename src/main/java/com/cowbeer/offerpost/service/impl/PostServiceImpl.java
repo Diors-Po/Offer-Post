@@ -32,7 +32,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostInfoVO addPostInfo(Long accountId,PostCommand command) {
         PostInfo postInfo = command.getPostInfo();
-        postInfo.setEnterpriseId(accountId);
+        postInfo.setAccountId(accountId);
         return processVO(postInfoDao.save(postInfo));
     }
 
@@ -45,7 +45,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
-        Optional<EnterpriseInfo> enterpriseInfoOptional = enterpriseInfoDao.findByAccountId(postInfo.getEnterpriseId());
+        Optional<EnterpriseInfo> enterpriseInfoOptional = enterpriseInfoDao.findByAccountId(postInfo.getAccountId());
         PostInfoVO postInfoVO = new PostInfoVO();
         postInfoVO.setPostInfo(postInfo);
         enterpriseInfoOptional.ifPresent(postInfoVO::setEnterpriseInfo);

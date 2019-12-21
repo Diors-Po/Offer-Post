@@ -21,8 +21,8 @@ public class PostInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "enterprise_id")
-    private Long enterpriseId;
+    @Column(name = "account_id")
+    private Long accountId;
 
     @Column(name = "title")
     private String title;

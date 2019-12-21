@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -35,6 +36,12 @@ public class AccountController {
         session.setAttribute("accountId", account.getId());
         log.info("登录成功: " + account.getId());
         return account;
+    }
+
+    @LoginRequired
+    @GetMapping(value = "/api/logout")
+    public void logout(HttpSession session){
+        session.removeAttribute("accountId");
     }
 
     @LoginRequired
