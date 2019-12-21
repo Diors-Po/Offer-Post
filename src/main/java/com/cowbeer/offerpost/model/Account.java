@@ -1,10 +1,10 @@
 package com.cowbeer.offerpost.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 public class Account {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "email")
@@ -35,14 +36,16 @@ public class Account {
     private String avatar;
 
     @Column(name = "role")
-    private String role;
+    private Integer role;
 
     @Column(name = "status")
     private Integer status;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @UpdateTimestamp
     @Column(name = "update_time")
     private Timestamp updateTime;
 }

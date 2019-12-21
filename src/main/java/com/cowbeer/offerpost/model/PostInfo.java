@@ -1,10 +1,10 @@
 package com.cowbeer.offerpost.model;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 /**
@@ -18,10 +18,14 @@ public class PostInfo {
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "enterprise_id")
-    private Long enterpriseId;
+    @Column(name = "account_id")
+    private Long accountId;
+
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "description")
     private String description;
@@ -38,12 +42,18 @@ public class PostInfo {
     @Column(name = "status")
     private Integer status;
 
+    @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
 
+    @UpdateTimestamp
     @Column(name = "update_time")
     private Timestamp updateTime;
 
+    @Column(name = "start_time")
+    private Timestamp startTime;
 
+    @Column(name = "end_time")
+    private Timestamp endTime;
 
 }
