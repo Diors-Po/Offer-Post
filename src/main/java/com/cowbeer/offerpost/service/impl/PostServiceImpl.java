@@ -93,12 +93,16 @@ public class PostServiceImpl implements PostService {
     public List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword) {
         List<PostInfo> allByStatus = postInfoDao.findAllByStatus(CheckStatus.AUTH_PASS);
         return allByStatus.stream().filter(postInfo -> {
+            if(command == null || command.getWorkLocations()==null || command.getWorkLocations().isEmpty())
+                return true;
             for (String s : command.getWorkLocations()){
                 if (postInfo.getWorkLocation().trim().equals(s.trim()))
                     return true;
             }
             return false;
         }).filter(postInfo -> {
+            if (command == null || command.getSalaryScope()==null || command.getSalaryScope().isEmpty())
+                return true;
             for(String s : command.getSalaryScope()){
                 String[] scopes = s.trim().split("-");
                 Integer min = Integer.parseInt(scopes[0]);
