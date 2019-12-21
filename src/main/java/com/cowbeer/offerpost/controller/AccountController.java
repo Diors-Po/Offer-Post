@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.LoginCommand;
+import com.cowbeer.offerpost.data.command.ResetPwdCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.data.command.UpdateAvatarCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -79,6 +80,17 @@ public class AccountController {
     @GetMapping(value = "/api/accounts/type/enterprise")
     public List<EnterpriseVO> getAuthPassedEnterprises(){
         return accountService.getAllAuthPassedEnterprise();
+    }
+
+    @PutMapping(value = "/api/account/{accountId}/password")
+    public void resetPwd(@Validated @RequestBody ResetPwdCommand command, @PathVariable("accountId") Long accountId,
+                         BindingResult result, HttpSession session){
+        if (result.hasErrors())
+            throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
+        if (command.isRepeatEqual())
+            throw new BadRequestException("两次输入密码不一致");
+        accountService.resetPwd(accountId, command);
+        session.removeAttribute("accountId");
     }
 
 }

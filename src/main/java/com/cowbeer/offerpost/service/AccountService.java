@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.service;
 
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
+import com.cowbeer.offerpost.data.command.ResetPwdCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
@@ -26,4 +27,6 @@ public interface AccountService {
     List<UserVO> getAllUsers();
 
     List<EnterpriseVO> getAllAuthPassedEnterprise();
+
+    void resetPwd(Long accountId, ResetPwdCommand command);
 }

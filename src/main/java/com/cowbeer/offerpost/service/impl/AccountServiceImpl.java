@@ -6,15 +6,18 @@ import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
 import com.cowbeer.offerpost.dao.UserInfoDao;
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
+import com.cowbeer.offerpost.data.command.ResetPwdCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
+import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.model.Account;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
 import com.cowbeer.offerpost.model.UserInfo;
 import com.cowbeer.offerpost.service.AccountService;
 import com.cowbeer.offerpost.service.UploadService;
+import com.cowbeer.offerpost.utils.EncryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,5 +128,17 @@ public class AccountServiceImpl implements AccountService {
             enterpriseInfoDao.findByAccountId(account.getId()).ifPresent(enterpriseVO::setEnterpriseInfo);
             return enterpriseVO;
         }).filter(enterpriseVO -> enterpriseVO.isAuthPassed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public void resetPwd(Long accountId, ResetPwdCommand command) {
+        Optional<Account> accountOptional = accountDao.findById(accountId);
+        if (!accountOptional.isPresent())
+            throw new BadRequestException("账号不存在");
+        Account account = accountOptional.get();
+        if (!EncryptUtil.encryptMD5(command.getOldPassword()).equals(account.getPassword()))
+            throw new ForbiddenRequestException("原密码输入错误");
+        account.setPassword(EncryptUtil.encryptMD5(command.getNewPassword()));
+        accountDao.save(account);
     }
 }
