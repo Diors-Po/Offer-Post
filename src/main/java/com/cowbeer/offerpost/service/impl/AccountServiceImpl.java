@@ -20,7 +20,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author: Diors.Po
@@ -105,5 +107,23 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountOptional.get();
         account.setAvatar(url);
         return accountDao.save(account);
+    }
+
+    @Override
+    public List<UserVO> getAllUsers() {
+        return accountDao.findByRole(RoleType.GENERAL_USER).stream().map(account -> {
+            UserVO userVO = new UserVO(account);
+            userInfoDao.findByAccountId(account.getId()).ifPresent(userVO::setUserInfo);
+            return userVO;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EnterpriseVO> getAllAuthPassedEnterprise() {
+        return accountDao.findByRole(RoleType.ENTERPRISE).stream().map(account -> {
+            EnterpriseVO enterpriseVO = new EnterpriseVO(account);
+            enterpriseInfoDao.findByAccountId(account.getId()).ifPresent(enterpriseVO::setEnterpriseInfo);
+            return enterpriseVO;
+        }).filter(enterpriseVO -> enterpriseVO.isAuthPassed()).collect(Collectors.toList());
     }
 }

@@ -61,4 +61,13 @@ public class EnterpriseController {
         return enterpriseService.getStatisticsInfo(accountId);
     }
 
+    @PutMapping(value = "/api/enterprise/{enterpriseId}/auth_info/pass")
+    public EnterpriseVO passEnterpriseAuth(@PathVariable("enterpriseId") Long enterpriseId){
+        return enterpriseService.passEnterpriseAuth(enterpriseId);
+    }
+
+    @PutMapping(value = "/api/enterprise/{enterpriseId}/auth_info/fail")
+    public EnterpriseVO failEnterpriseAuth(@PathVariable("enterpriseId") Long enterpriseId){
+        return enterpriseService.rejectEnterpriseAuth(enterpriseId);
+    }
 }

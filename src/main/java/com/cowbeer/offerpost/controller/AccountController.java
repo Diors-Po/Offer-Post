@@ -5,6 +5,7 @@ import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.UpdateAccountCommand;
 import com.cowbeer.offerpost.data.command.UpdateAvatarCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
+import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.exception.UnauthorizedException;
@@ -68,6 +69,16 @@ public class AccountController {
         if (!currentAId.equals(accountId))
             throw new ForbiddenRequestException("无权修改他人信息");
         return accountService.updateAvatar(accountId, command.getBase64str());
+    }
+
+    @GetMapping(value = "/api/accounts/type/user")
+    public List<UserVO> getAllUsers(){
+        return accountService.getAllUsers();
+    }
+
+    @GetMapping(value = "/api/accounts/type/enterprise")
+    public List<EnterpriseVO> getAuthPassedEnterprises(){
+        return accountService.getAllAuthPassedEnterprise();
     }
 
 }

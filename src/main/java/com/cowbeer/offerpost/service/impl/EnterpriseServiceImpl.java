@@ -73,7 +73,28 @@ public class EnterpriseServiceImpl implements EnterpriseService {
 
     @Override
     public StatisticsDTO getStatisticsInfo(Long accountId) {
+
         return null;
+    }
+
+    @Override
+    public EnterpriseVO passEnterpriseAuth(Long accountId) {
+        Optional<EnterpriseInfo> infoOptional = enterpriseInfoDao.findByAccountId(accountId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("该账号未提交企业认证信息");
+        EnterpriseInfo info = infoOptional.get();
+        info.setAuthStatus(CheckStatus.AUTH_PASS);
+        return new EnterpriseVO(accountDao.findById(accountId).get(), enterpriseInfoDao.save(info));
+    }
+
+    @Override
+    public EnterpriseVO rejectEnterpriseAuth(Long accountId) {
+        Optional<EnterpriseInfo> infoOptional = enterpriseInfoDao.findByAccountId(accountId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("该账号未提交企业认证信息");
+        EnterpriseInfo info = infoOptional.get();
+        info.setAuthStatus(CheckStatus.AUTH_FAIL);
+        return new EnterpriseVO(accountDao.findById(accountId).get(), enterpriseInfoDao.save(info));
     }
 
 

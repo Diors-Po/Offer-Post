@@ -30,4 +30,17 @@ public class EnterpriseVO extends Account {
         BeanUtils.copyProperties(account, this);
         this.setPassword("******");
     }
+
+    public void setAccount(Account account){
+        BeanUtils.copyProperties(account, this);
+        this.setPassword("******");
+    }
+
+    public void setEnterpriseInfo(EnterpriseInfo enterpriseInfo){
+        this.enterpriseInfo = enterpriseInfo;
+        if (enterpriseInfo!=null && enterpriseInfo.getAuthStatus()
+                .equals(CheckStatus.AUTH_PASS)){
+            this.authPassed = true;
+        }
+    }
 }

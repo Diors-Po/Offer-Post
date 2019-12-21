@@ -15,5 +15,7 @@ import java.util.Optional;
 public interface AccountDao extends PagingAndSortingRepository<Account, Long> {
     List<Account> findAll();
 
-     Optional<Account> findByEmail(String email);
+    Optional<Account> findByEmail(String email);
+
+    List<Account> findByRole(Integer roleType);
 }

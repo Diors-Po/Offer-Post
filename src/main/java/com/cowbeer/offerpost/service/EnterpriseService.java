@@ -19,4 +19,8 @@ public interface EnterpriseService {
     EnterpriseVO updateEnterpriseAuth(Long accountId, UpdateEnterpriseAuthCommand command);
 
     StatisticsDTO getStatisticsInfo(Long accountId);
+
+    EnterpriseVO passEnterpriseAuth(Long accountId);
+
+    EnterpriseVO rejectEnterpriseAuth(Long accountId);
 }
