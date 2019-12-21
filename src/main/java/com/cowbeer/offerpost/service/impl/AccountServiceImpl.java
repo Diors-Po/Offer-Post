@@ -14,6 +14,7 @@ import com.cowbeer.offerpost.model.Account;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
 import com.cowbeer.offerpost.model.UserInfo;
 import com.cowbeer.offerpost.service.AccountService;
+import com.cowbeer.offerpost.service.UploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     EnterpriseInfoDao enterpriseInfoDao;
+
+    @Autowired
+    UploadService uploadService;
 
     @Override
     public Account register(RegisterCommand command, Integer roleType) {
@@ -89,6 +93,17 @@ public class AccountServiceImpl implements AccountService {
             throw new BadRequestException("用户不存在");
         Account account = accountOptional.get();
         BeanUtils.copyProperties(command, account);
+        return accountDao.save(account);
+    }
+
+    @Override
+    public Account updateAvatar(Long accountId, String data) {
+        Optional<Account> accountOptional = accountDao.findById(accountId);
+        if (!accountOptional.isPresent())
+            throw new BadRequestException("用户不存在");
+        String url = uploadService.uploadBase64(data);
+        Account account = accountOptional.get();
+        account.setAvatar(url);
         return accountDao.save(account);
     }
 }

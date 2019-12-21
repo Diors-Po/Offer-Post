@@ -15,8 +15,11 @@ import java.sql.Timestamp;
 public class Resume2Post {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "account_id")
+    private Long accountId;
 
     @Column(name = "resume_id")
     private Long resumeId;

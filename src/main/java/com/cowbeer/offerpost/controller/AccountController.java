@@ -31,6 +31,7 @@ public class AccountController {
     public Account login(@Validated @RequestBody LoginCommand command, HttpSession session){
         Account account = accountService.login(command);
         session.setAttribute("accountId", account.getId());
+        log.info("登录成功: " + account.getId());
         return account;
     }
 
@@ -44,5 +45,14 @@ public class AccountController {
         if (!currentAId.equals(accountId))
             throw new UnauthorizedException("无权修改他人信息");
         return accountService.update(accountId, command);
+    }
+
+    @LoginRequired
+    @PutMapping(value = "/api/account/{accountId}/avatar")
+    public Account updateAvatar(@PathVariable("accountId") Long accountId, @RequestBody String data, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new UnauthorizedException("无权修改他人信息");
+        return accountService.updateAvatar(accountId, data);
     }
 }

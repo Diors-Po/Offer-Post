@@ -11,4 +11,6 @@ public interface UploadService {
     String uploadGeneralFile(MultipartFile file);
 
     String uploadImage(MultipartFile file);
+
+    String uploadBase64(String data);
 }

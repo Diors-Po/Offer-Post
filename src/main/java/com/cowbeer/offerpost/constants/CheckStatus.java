@@ -10,8 +10,8 @@ public class CheckStatus {
     public static final Integer ACCOUNT_LOCKED = 0;
     public static final Integer ACCOUNT_DELETED = -1;
 
-    public static final Integer ENTERPRISE_AUTH_PASS = 1;
-    public static final Integer ENTERPRISE_AUTH_ING = 0;
-    public static final Integer ENTERPRIES_AUTH_FAIL = -1;
+    public static final Integer AUTH_PASS = 1;
+    public static final Integer AUTH_ING = 0;
+    public static final Integer AUTH_FAIL = -1;
 
 }

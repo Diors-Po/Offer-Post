@@ -66,7 +66,7 @@ public class EnterpriseServiceImpl implements EnterpriseService {
             info.setAccountId(accountId);
         }
         BeanUtils.copyProperties(command, info);
-        info.setAuthStatus(CheckStatus.ENTERPRISE_AUTH_ING);
+        info.setAuthStatus(CheckStatus.AUTH_ING);
         return new EnterpriseVO(accountOptional.get(), enterpriseInfoDao.save(info));
     }
 

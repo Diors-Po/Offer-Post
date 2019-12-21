@@ -21,7 +21,7 @@ public class EnterpriseVO extends Account {
         this.setPassword("******");
         this.enterpriseInfo = enterpriseInfo;
         if (enterpriseInfo!=null && enterpriseInfo.getAuthStatus()
-                .equals(CheckStatus.ENTERPRISE_AUTH_PASS)){
+                .equals(CheckStatus.AUTH_PASS)){
             this.authPassed = true;
         }
     }

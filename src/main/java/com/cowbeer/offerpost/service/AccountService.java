@@ -16,4 +16,6 @@ public interface AccountService {
     Account login(LoginCommand command);
 
     Account update(Long accountId, UpdateAccountCommand command);
+
+    Account updateAvatar(Long accountId, String data);
 }
