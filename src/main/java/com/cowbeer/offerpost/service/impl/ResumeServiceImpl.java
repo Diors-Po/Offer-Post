@@ -7,10 +7,7 @@ import com.cowbeer.offerpost.data.vo.Resume2PostVO;
 import com.cowbeer.offerpost.data.vo.ResumeVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
-import com.cowbeer.offerpost.model.EnterpriseInfo;
-import com.cowbeer.offerpost.model.Resume;
-import com.cowbeer.offerpost.model.Resume2Post;
-import com.cowbeer.offerpost.model.UserInfo;
+import com.cowbeer.offerpost.model.*;
 import com.cowbeer.offerpost.service.ResumeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +84,8 @@ public class ResumeServiceImpl implements ResumeService {
         return resume2PostDao.findByAccountId(accountId).stream().map(resume2Post -> {
             Resume resume = resumeDao.findById(resume2Post.getResumeId()).get();
             EnterpriseInfo enterpriseInfo = enterpriseInfoDao.findByAccountId(postInfoDao.findById(resume2Post.getPostId()).get().getAccountId()).get();
-            return new Resume2PostVO(resume2Post, resume, enterpriseInfo);
+            PostInfo postInfo = postInfoDao.findById(resume2Post.getPostId()).get();
+            return new Resume2PostVO(resume2Post, resume, postInfo, enterpriseInfo);
         }).collect(Collectors.toList());
     }
 

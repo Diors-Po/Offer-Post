@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.data.vo;
 
 import com.cowbeer.offerpost.model.EnterpriseInfo;
+import com.cowbeer.offerpost.model.PostInfo;
 import com.cowbeer.offerpost.model.Resume;
 import com.cowbeer.offerpost.model.Resume2Post;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Resume2PostVO {
     private String resumeName;
     private String createTime;
     private Long postId;
-    private String postName;
+    private String postTitle;
     private String annexUrl;
     private Long accountId;
     //此处的enterpriseId是指enterprise的accountId,
@@ -30,11 +31,12 @@ public class Resume2PostVO {
         BeanUtils.copyProperties(resume2Post, this);
     }
 
-    public Resume2PostVO(Resume2Post resume2Post, Resume resume, EnterpriseInfo enterpriseInfo){
+    public Resume2PostVO(Resume2Post resume2Post, Resume resume, PostInfo postInfo, EnterpriseInfo enterpriseInfo){
         BeanUtils.copyProperties(resume2Post, this);
         this.enterpriseId = enterpriseInfo.getAccountId();
         this.enterpriseName = enterpriseInfo.getEnterpriseName();
         this.resumeName = resume.getName();
+        this.postTitle = postInfo.getTitle();
         this.annexUrl = resume.getAnnexUrl();
     }
 

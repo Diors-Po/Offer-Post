@@ -99,11 +99,12 @@ public class EnterpriseController {
         return enterpriseService.getAllEnterprise();
     }
 
+    @LoginRequired
     @GetMapping(value = "/api/enterprise/{accountId}/posts/manage")
     public PostInfoDTO getPostInfoList(@PathVariable("accountId") Long accountId, HttpSession session){
-//        Long currentAId = (Long)session.getAttribute("accountId");
-//        if (!currentAId.equals(accountId))
-//            throw new ForbiddenRequestException("无权修改他人信息");
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权修改他人信息");
         return enterpriseService.getPostInfoList(accountId);
     }
 
