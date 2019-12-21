@@ -1,6 +1,7 @@
 package com.cowbeer.offerpost.service;
 
 import com.cowbeer.offerpost.data.command.PostCommand;
+import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface PostService {
     PostInfoVO passPostInfo(Long postId);
 
     PostInfoVO rejectPostInfo(Long postId);
+
+    List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword);
 }

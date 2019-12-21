@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
 import com.cowbeer.offerpost.dao.PostInfoDao;
 import com.cowbeer.offerpost.data.command.PostCommand;
+import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
@@ -86,6 +87,12 @@ public class PostServiceImpl implements PostService {
         PostInfo postInfo = infoOptional.get();
         postInfo.setStatus(CheckStatus.AUTH_FAIL);
         return processVO(postInfoDao.save(postInfo));
+    }
+
+    @Override
+    public List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword) {
+        List<PostInfo> allByStatus = postInfoDao.findAllByStatus(CheckStatus.AUTH_PASS);
+        return allByStatus.stream().map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
