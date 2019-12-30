@@ -111,7 +111,7 @@ public class PostServiceImpl implements PostService {
                     return true;
             }
             return false;
-        }).map(this::processVO).collect(Collectors.toList());
+        }).filter(postInfo -> postInfo.getDescription().contains(keyword)).map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
