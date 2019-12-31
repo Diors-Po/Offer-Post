@@ -91,6 +91,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword) {
+        log.info("keyword: "+keyword);
         List<PostInfo> allByStatus = postInfoDao.findAllByStatus(CheckStatus.AUTH_PASS);
         return allByStatus.stream().filter(postInfo -> {
             if(command == null || command.getWorkLocations()==null || command.getWorkLocations().isEmpty())
@@ -107,11 +108,11 @@ public class PostServiceImpl implements PostService {
                 String[] scopes = s.trim().split("-");
                 Integer min = Integer.parseInt(scopes[0]);
                 Integer max = Integer.parseInt(scopes[1]);
-                if (postInfo.getSalary()<=max || postInfo.getSalary()>=min)
+                if (postInfo.getSalary()<=max && postInfo.getSalary()>=min)
                     return true;
             }
             return false;
-        }).filter(postInfo -> postInfo.getDescription().contains(keyword)).map(this::processVO).collect(Collectors.toList());
+        }).filter(postInfo -> postInfo.getDescription().contains(keyword)||postInfo.getTitle().contains(keyword)).map(this::processVO).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){
@@ -121,4 +122,5 @@ public class PostServiceImpl implements PostService {
         enterpriseInfoOptional.ifPresent(postInfoVO::setEnterpriseInfo);
         return postInfoVO;
     }
+
 }
