@@ -71,10 +71,7 @@ public class AccountServiceImpl implements AccountService {
         else if (account.getRole().equals(RoleType.ENTERPRISE)) {
             //todo
             Optional<EnterpriseInfo> infoOptional = enterpriseInfoDao.findByAccountId(account.getId());
-            if (infoOptional.isPresent())
-                accountVO = new EnterpriseVO(account, infoOptional.get());
-            else
-                accountVO = new EnterpriseVO(account);
+            accountVO = infoOptional.map(enterpriseInfo -> new EnterpriseVO(account, enterpriseInfo)).orElseGet(() -> new EnterpriseVO(account));
         }
         else if (account.getRole().equals(RoleType.GENERAL_USER)){
             Optional<UserInfo> infoOptional = userInfoDao.findByAccountId(account.getId());
