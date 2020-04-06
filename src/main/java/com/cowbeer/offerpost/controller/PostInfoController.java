@@ -2,14 +2,13 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.constants.CheckStatus;
-import com.cowbeer.offerpost.data.PostInfoDTO;
 import com.cowbeer.offerpost.data.PostsAuthDTO;
+import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
-import com.cowbeer.offerpost.model.PostInfo;
 import com.cowbeer.offerpost.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,8 +75,11 @@ public class PostInfoController {
     }
 
     @PutMapping(value = "/api/enterprise/post/{postId}/status/fail")
-    public PostInfoVO rejectPostInfo(@PathVariable("postId")Long postId){
-        return postService.rejectPostInfo(postId);
+    public PostInfoVO rejectPostInfo(@PathVariable("postId")Long postId, @Validated @RequestBody CheckCommand checkCommand
+            , BindingResult result){
+        if (result.hasErrors())
+            throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
+        return postService.rejectPostInfo(postId, checkCommand);
     }
 
     @PostMapping(value = "/api/square/posts")

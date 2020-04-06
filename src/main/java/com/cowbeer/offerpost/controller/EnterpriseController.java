@@ -3,6 +3,7 @@ package com.cowbeer.offerpost.controller;
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.PostInfoDTO;
 import com.cowbeer.offerpost.data.StatisticsDTO;
+import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseVO;
@@ -70,8 +71,11 @@ public class EnterpriseController {
     }
 
     @PutMapping(value = "/api/enterprise/{accountId}/auth_info/fail")
-    public EnterpriseVO failEnterpriseAuth(@PathVariable("accountId") Long accountId){
-        return enterpriseService.rejectEnterpriseAuth(accountId);
+    public EnterpriseVO failEnterpriseAuth(@PathVariable("accountId") Long accountId,  @Validated @RequestBody CheckCommand command
+            , BindingResult result){
+        if (result.hasErrors())
+            throw new BadRequestException(result.getFieldErrors().get(0).getDefaultMessage());
+        return enterpriseService.rejectEnterpriseAuth(accountId, command);
     }
 
     @GetMapping(value = "/api/enterprises/status/checked")

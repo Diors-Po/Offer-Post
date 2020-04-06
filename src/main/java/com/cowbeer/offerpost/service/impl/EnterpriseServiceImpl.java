@@ -5,6 +5,7 @@ import com.cowbeer.offerpost.constants.RoleType;
 import com.cowbeer.offerpost.dao.*;
 import com.cowbeer.offerpost.data.PostInfoDTO;
 import com.cowbeer.offerpost.data.StatisticsDTO;
+import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateEnterpriseAuthCommand;
 import com.cowbeer.offerpost.data.vo.EnterpriseManagePostVO;
@@ -19,6 +20,7 @@ import com.cowbeer.offerpost.service.AccountService;
 import com.cowbeer.offerpost.service.EnterpriseService;
 import com.cowbeer.offerpost.service.PostService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Check;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,16 +148,18 @@ public class EnterpriseServiceImpl implements EnterpriseService {
             throw new BadRequestException("该账号未提交企业认证信息");
         EnterpriseInfo info = infoOptional.get();
         info.setAuthStatus(CheckStatus.AUTH_PASS);
+        info.setCheckMessage("审核通过");
         return new EnterpriseVO(accountDao.findById(accountId).get(), enterpriseInfoDao.save(info));
     }
 
     @Override
-    public EnterpriseVO rejectEnterpriseAuth(Long accountId) {
+    public EnterpriseVO rejectEnterpriseAuth(Long accountId, CheckCommand checkCommand) {
         Optional<EnterpriseInfo> infoOptional = enterpriseInfoDao.findByAccountId(accountId);
         if (!infoOptional.isPresent())
             throw new BadRequestException("该账号未提交企业认证信息");
         EnterpriseInfo info = infoOptional.get();
         info.setAuthStatus(CheckStatus.AUTH_FAIL);
+        info.setCheckMessage(checkCommand.getMessage());
         return new EnterpriseVO(accountDao.findById(accountId).get(), enterpriseInfoDao.save(info));
     }
 

@@ -44,4 +44,7 @@ public class EnterpriseInfo {
     @Column(name = "update_time")
     @UpdateTimestamp
     private Timestamp updateTime;
+
+    @Column(name = "auth_message")
+    private String checkMessage;
 }
