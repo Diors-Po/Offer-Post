@@ -3,6 +3,7 @@ package com.cowbeer.offerpost.service;
 import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
+import com.cowbeer.offerpost.data.vo.CommentVO;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
 
@@ -31,4 +32,8 @@ public interface PostService {
     List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword);
 
     List<UserVO> staredPeople(Long postId);
+
+    void addComment(Long postId, Long accountId, String comment);
+
+    List<CommentVO> getCommentsByPost(Long postId);
 }

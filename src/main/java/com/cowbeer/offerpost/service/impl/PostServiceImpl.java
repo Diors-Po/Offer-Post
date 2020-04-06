@@ -2,15 +2,18 @@ package com.cowbeer.offerpost.service.impl;
 
 import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
+import com.cowbeer.offerpost.dao.Post2CommentDao;
 import com.cowbeer.offerpost.dao.PostInfoDao;
 import com.cowbeer.offerpost.dao.UserStarPostDao;
 import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
+import com.cowbeer.offerpost.data.vo.CommentVO;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.model.EnterpriseInfo;
+import com.cowbeer.offerpost.model.Post2Comment;
 import com.cowbeer.offerpost.model.PostInfo;
 import com.cowbeer.offerpost.service.PostService;
 import com.cowbeer.offerpost.service.UserService;
@@ -42,6 +45,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    Post2CommentDao post2CommentDao;
 
     @Override
     public PostInfoVO addPostInfo(Long accountId,PostCommand command) {
@@ -133,6 +139,27 @@ public class PostServiceImpl implements PostService {
             throw new BadRequestException("招聘信息不存在");
         return userStarPostDao.findAllByPostId(postId).stream()
                 .map(userStarPost -> userService.getUser(userStarPost.getAccountId())).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addComment(Long postId, Long accountId, String comment) {
+        Optional<PostInfo> infoOptional = postInfoDao.findById(postId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("招聘信息不存在");
+        Post2Comment post2Comment = new Post2Comment(postId, accountId, comment);
+        post2CommentDao.save(post2Comment);
+    }
+
+    @Override
+    public List<CommentVO> getCommentsByPost(Long postId) {
+        Optional<PostInfo> infoOptional = postInfoDao.findById(postId);
+        if (!infoOptional.isPresent())
+            throw new BadRequestException("招聘信息不存在");
+        return post2CommentDao.findAllByPostId(postId).stream().map(post2Comment -> {
+            CommentVO commentVO = new CommentVO(post2Comment);
+            commentVO.setUserVO(userService.getUser(commentVO.getAccountId()));
+            return commentVO;
+        }).collect(Collectors.toList());
     }
 
     private PostInfoVO processVO(PostInfo postInfo){

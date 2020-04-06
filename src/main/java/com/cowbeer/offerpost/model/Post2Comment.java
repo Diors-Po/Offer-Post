@@ -1,6 +1,8 @@
 package com.cowbeer.offerpost.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -13,6 +15,8 @@ import java.sql.Timestamp;
  */
 @Data
 @Entity(name = "post_2_comment")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Post2Comment {
     @Id
     @Column(name = "id")
@@ -26,9 +30,15 @@ public class Post2Comment {
     private Long accountId;
 
     @Column(name = "comment")
-    private Long comment;
+    private String comment;
 
     @CreationTimestamp
     @Column(name = "create_time")
     private Timestamp createTime;
+
+    public Post2Comment(Long postId, Long accountId, String comment) {
+        this.postId = postId;
+        this.accountId = accountId;
+        this.comment = comment;
+    }
 }
