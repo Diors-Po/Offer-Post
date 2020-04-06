@@ -56,4 +56,7 @@ public class PostInfo {
     @Column(name = "end_time")
     private Timestamp endTime;
 
+    @Column(name = "check_message")
+    private String checkMessage;
+
 }

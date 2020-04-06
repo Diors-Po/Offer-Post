@@ -3,6 +3,7 @@ package com.cowbeer.offerpost.service.impl;
 import com.cowbeer.offerpost.constants.CheckStatus;
 import com.cowbeer.offerpost.dao.EnterpriseInfoDao;
 import com.cowbeer.offerpost.dao.PostInfoDao;
+import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
@@ -76,16 +77,18 @@ public class PostServiceImpl implements PostService {
         if (!enterpriseInfoOptional.isPresent() || !enterpriseInfoOptional.get().getAuthStatus().equals(CheckStatus.AUTH_PASS))
             throw new BadRequestException("企业不存在或未通过认证，无法通过该企业的招聘信息");
         postInfo.setStatus(CheckStatus.AUTH_PASS);
+        postInfo.setCheckMessage("审核通过");
         return processVO(postInfoDao.save(postInfo));
     }
 
     @Override
-    public PostInfoVO rejectPostInfo(Long postId) {
+    public PostInfoVO rejectPostInfo(Long postId, CheckCommand checkCommand) {
         Optional<PostInfo> infoOptional = postInfoDao.findById(postId);
         if (!infoOptional.isPresent())
             throw new BadRequestException("招聘信息不存在");
         PostInfo postInfo = infoOptional.get();
         postInfo.setStatus(CheckStatus.AUTH_FAIL);
+        postInfo.setCheckMessage(checkCommand.getMessage());
         return processVO(postInfoDao.save(postInfo));
     }
 
