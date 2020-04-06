@@ -6,7 +6,9 @@ import com.cowbeer.offerpost.data.PostsAuthDTO;
 import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
+import com.cowbeer.offerpost.data.vo.CommentVO;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
+import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.service.PostService;
@@ -86,4 +88,22 @@ public class PostInfoController {
     public List<PostInfoVO> getSquarePosts(@RequestBody(required = false) SearchPostCommand command, @RequestParam(required = false,name = "search") String keyword){
         return postService.searchPosts(command, keyword);
     }
+
+    @GetMapping(value = "/api/enterprise/post/{postId}/star/user")
+    public List<UserVO> getStaredUsers(@PathVariable("postId")Long postId){
+        return postService.staredPeople(postId);
+    }
+
+    @LoginRequired
+    @PostMapping(value = "/api/enterprise/post/{postId}/comment")
+    public void rejectPostInfo(@PathVariable("postId")Long postId, @RequestParam("comment") String comment, HttpSession session){
+        Long accountId = (Long) session.getAttribute("accountId");
+        postService.addComment(postId, accountId, comment);
+    }
+
+    @GetMapping(value = "/api/enterprise/post/{postId}/comments")
+    public List<CommentVO> getPostComments(@PathVariable("postId") Long postId) {
+        return postService.getCommentsByPost(postId);
+    }
+
 }

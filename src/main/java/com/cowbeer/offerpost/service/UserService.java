@@ -1,10 +1,11 @@
 package com.cowbeer.offerpost.service;
 
-import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateUserCommand;
+import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
-import com.cowbeer.offerpost.model.Account;
+
+import java.util.List;
 
 /**
  * @author: Diors.Po
@@ -19,4 +20,10 @@ public interface UserService {
     UserVO getUser(Long accountId);
 
     void sendResume(Long accountId, Long postId, Long resumeId);
+
+    void starPost(Long accountId, Long postId);
+
+    void cancelStarPost(Long accountId, Long postId);
+
+    List<PostInfoVO> getStarPostList(Long accountId);
 }
