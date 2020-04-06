@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.data.command.LoginCommand;
 import com.cowbeer.offerpost.data.command.RegisterCommand;
 import com.cowbeer.offerpost.data.command.UpdateUserCommand;
+import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
@@ -20,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author: Diors.Po
@@ -88,5 +90,34 @@ public class UserController {
         userService.sendResume(accountId, postId, resumeId);
     }
 
+    @LoginRequired
+    @GetMapping(value = "/api/user/{accountId}/star/posts")
+    public List<PostInfoVO> sendResume(@PathVariable("accountId") Long accountId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权操作他人账号");
+        log.info("User Star's Posts List: accountId: "+accountId );
+        return userService.getStarPostList(accountId);
+    }
+
+    @LoginRequired
+    @PostMapping(value = "/api/user/{accountId}/star/post/{postId}")
+    public void starPost(@PathVariable("accountId") Long accountId, @PathVariable("postId") Long postId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权操作他人账号");
+        log.info("User Star Post: accountId: "+accountId + ", postId: "+postId);
+        userService.starPost(accountId, postId);
+    }
+
+    @LoginRequired
+    @DeleteMapping(value = "/api/user/{accountId}/star/post/{postId}")
+    public void cancelStarPost(@PathVariable("accountId") Long accountId, @PathVariable("postId") Long postId, HttpSession session){
+        Long currentAId = (Long)session.getAttribute("accountId");
+        if (!currentAId.equals(accountId))
+            throw new ForbiddenRequestException("无权操作他人账号");
+        log.info("User Cancel Star Post: accountId: "+accountId + ", postId: "+postId);
+        userService.cancelStarPost(accountId, postId);
+    }
 
 }

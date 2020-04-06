@@ -7,6 +7,7 @@ import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
+import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
 import com.cowbeer.offerpost.service.PostService;
@@ -85,5 +86,10 @@ public class PostInfoController {
     @PostMapping(value = "/api/square/posts")
     public List<PostInfoVO> getSquarePosts(@RequestBody(required = false) SearchPostCommand command, @RequestParam(required = false,name = "search") String keyword){
         return postService.searchPosts(command, keyword);
+    }
+
+    @GetMapping(value = "/api/enterprise/post/{postId}/star/user")
+    public List<UserVO> rejectPostInfo(@PathVariable("postId")Long postId){
+        return postService.staredPeople(postId);
     }
 }

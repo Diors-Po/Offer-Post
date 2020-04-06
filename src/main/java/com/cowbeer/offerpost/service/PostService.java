@@ -4,6 +4,7 @@ import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
 import com.cowbeer.offerpost.data.command.SearchPostCommand;
 import com.cowbeer.offerpost.data.vo.PostInfoVO;
+import com.cowbeer.offerpost.data.vo.UserVO;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface PostService {
     PostInfoVO rejectPostInfo(Long postId, CheckCommand checkCommand);
 
     List<PostInfoVO> searchPosts(SearchPostCommand command, String keyword);
+
+    List<UserVO> staredPeople(Long postId);
 }

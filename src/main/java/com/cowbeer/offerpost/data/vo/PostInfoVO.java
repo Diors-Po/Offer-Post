@@ -13,4 +13,5 @@ import lombok.Data;
 public class PostInfoVO {
     private EnterpriseInfo enterpriseInfo;
     private PostInfo postInfo;
+    private Long starCount;
 }
