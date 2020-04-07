@@ -2,6 +2,7 @@ package com.cowbeer.offerpost.controller;
 
 import com.cowbeer.offerpost.annotation.LoginRequired;
 import com.cowbeer.offerpost.constants.CheckStatus;
+import com.cowbeer.offerpost.dao.UserStarPostDao;
 import com.cowbeer.offerpost.data.PostsAuthDTO;
 import com.cowbeer.offerpost.data.command.CheckCommand;
 import com.cowbeer.offerpost.data.command.PostCommand;
@@ -11,6 +12,7 @@ import com.cowbeer.offerpost.data.vo.PostInfoVO;
 import com.cowbeer.offerpost.data.vo.UserVO;
 import com.cowbeer.offerpost.exception.BadRequestException;
 import com.cowbeer.offerpost.exception.ForbiddenRequestException;
+import com.cowbeer.offerpost.model.UserStarPost;
 import com.cowbeer.offerpost.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -33,6 +36,9 @@ public class PostInfoController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    UserStarPostDao userStarPostDao;
 
     @LoginRequired
     @PostMapping(value = "/api/enterprise/{accountId}/post")
@@ -52,8 +58,14 @@ public class PostInfoController {
     }
 
     @GetMapping(value = "/api/enterprise/post/{postId}")
-    public PostInfoVO getPostById(@PathVariable("postId") Long postId){
-        return postService.getPostInfoById(postId);
+    public PostInfoVO getPostById(@PathVariable("postId") Long postId, HttpSession session){
+        PostInfoVO postInfoVO = postService.getPostInfoById(postId);
+        if (session.getAttribute("accountId") != null) {
+           Long accountId = (Long) session.getAttribute("accountId");
+           Optional<UserStarPost> userStarPost = userStarPostDao.findByAccountIdAndPostId(accountId, postId);
+           postInfoVO.setHasStar(userStarPost.isPresent());
+        }
+        return postInfoVO;
     }
 
     @GetMapping(value = "/api/enterprise/posts/auth_pass")
