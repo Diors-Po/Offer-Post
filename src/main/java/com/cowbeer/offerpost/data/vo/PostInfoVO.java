@@ -14,4 +14,5 @@ public class PostInfoVO {
     private EnterpriseInfo enterpriseInfo;
     private PostInfo postInfo;
     private Long starCount;
+    private Boolean hasStar = false;    //登录状态下查看招聘信息，显示是否收藏
 }
